@@ -2,7 +2,7 @@ import {
     InputContainer, DefaultInput
 } from './styles'
 
-const HomePage = () => {
+const CommonInput = () => {
     return (
         <InputContainer>
             <DefaultInput />
@@ -10,4 +10,4 @@ const HomePage = () => {
     )
 }
 
-export default HomePage
+export default CommonInput
