@@ -11,10 +11,12 @@ export const HeaderContainer = styled.header`
     left: 0;
     width: 100%;
     height: 64px;
+    text-align: center;
 `
 
 export const HeaderMessage = styled.h1`
     color: white;
+    font-size: 1.6rem;
 `
 
 export const PageWrapper = styled.div`
