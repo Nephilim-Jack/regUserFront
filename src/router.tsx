@@ -6,6 +6,7 @@ import LoginPage from './pages/LoginPage/index'
 import AccessLevelControl from './pages/ACL/index';
 import PageContext from './context/index'
 import Header from './components/Header/index';
+import './index.css'
 
 
 const Router = () => {
