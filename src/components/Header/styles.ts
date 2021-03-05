@@ -19,5 +19,6 @@ export const HeaderMessage = styled.h1`
 
 export const PageWrapper = styled.div`
     width: 100%;
-    margin-top: 64px;
+    margin-top: 63px;
+    height: 1px;
 `
