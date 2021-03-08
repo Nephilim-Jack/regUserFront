@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import { useState } from 'react'
 import {
     InputContainer, DefaultInput,
     InputLabel, InputBottomLine,
@@ -8,7 +8,7 @@ import {
 interface CommonInputProps {
     name: string;
     placeHolder?: string;
-    setValue?: (value: string) => void;
+    setValue: (value: string) => void;
     type: string;
 }
 
@@ -26,6 +26,7 @@ const CommonInput = (props: CommonInputProps) => {
                     placeholder={props.placeHolder? props.placeHolder : `Insira o ${props.name}`}
                     type={props.type}
                     expand={inputFocused}
+                    onChange={(e) => props.setValue(e.target.value)}
                 />
                 <InputBottomLine expand={inputFocused}/>
             </InputWrapper>
