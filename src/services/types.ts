@@ -20,9 +20,14 @@ interface Profile {
 }
 
 export interface UserLoginData {
-    email:    string;
-    cpf:      string;
-    pis:      string;
+    email: string | undefined;
+    cpf: number | string |undefined;
+    pis: number | string |undefined;
     password: string;
-    using:    string;
+    using: string;
+}
+
+export interface TokenData {
+    access: string;
+    refresh : string;
 }
