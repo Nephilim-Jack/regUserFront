@@ -1,6 +1,7 @@
 export interface UserData {
     first_name: string;
     last_name: string;
+    username: string;
     email: string;
     profile: Profile;
     password: string;
@@ -16,4 +17,12 @@ interface Profile {
     complement: string;
     cpf: number;
     pis: number;
+}
+
+export interface UserLoginData {
+    email:    string;
+    cpf:      string;
+    pis:      string;
+    password: string;
+    using:    string;
 }
