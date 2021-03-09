@@ -1,5 +1,9 @@
 import axios from 'axios';
 import { UserData, UserLoginData, TokenData } from './types'
+import { 
+    getUserSession, createUserSession, 
+    accessCookieName, refreshCookieName
+ } from '../utils/sessions'
 
 const api = axios.create({
     baseURL: 'http://127.0.0.1:8000/api/'
@@ -22,10 +26,30 @@ export const loginUser = async (userLogin: UserLoginData) => {
         username: await getUsername(userLogin),
         password: userLogin.password,
     }
-    return await api.post<TokenData>('v1/token/login/', loginData).then(response => {
+    return await api.post<TokenData>('token/login/', loginData).then(response => {
+        if (accessCookieName && refreshCookieName){
+            createUserSession(accessCookieName, response.data.access)
+            createUserSession(refreshCookieName, response.data.refresh)
+        }
         return {
-            access: response.data.access,
-            refresh: response.data.refresh
-        } as TokenData
+            username: loginData.username
+        }
     })
 }
+
+export const refreshToken = async () => {
+    let refresh = ''
+    if (refreshCookieName){
+        const refreshValue = getUserSession(refreshCookieName)
+        refresh = refreshValue !== -1? refreshValue : ''
+    }
+    if (refresh !== '') {
+        await api.post<TokenData>('token/refresh/', {refresh}).then(response => {
+            if (accessCookieName) {
+                createUserSession(accessCookieName, response.data.access)
+            }
+        })
+    }
+}
+
+export default api

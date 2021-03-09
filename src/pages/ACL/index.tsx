@@ -1,14 +1,16 @@
 import { FC } from 'react'
 import { useHistory } from 'react-router-dom'
-import {getUserSession} from '../../utils/sessions'
+import { getUserSession, refreshCookieName } from '../../utils/sessions'
 
 const AccessLevelControl: FC = (props) => {
     const history = useHistory()
     const loadRoutes = () => {
-        if (getUserSession() !== -1) {
-            return props.children
-        } else {
-            history.push('/login')
+        if (refreshCookieName){
+            if (getUserSession(refreshCookieName) !== -1) {
+                return props.children
+            } else {
+                history.push('/login')
+            }
         }
     }
     return (

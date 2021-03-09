@@ -6,6 +6,8 @@ import CommonInput from '../../components/CommonInput/index'
 import {loginUser} from '../../services/api'
 import {UserLoginData} from '../../services/types'
 import {capitalize} from '../../utils/commonFunctions'
+import {useNameContext} from '../../context/index'
+import { useHistory } from 'react-router-dom'
 
 type UsableLogin = 'email' | 'cpf' | 'pis'
 
@@ -14,9 +16,10 @@ const LoginPage = () => {
     const [loginType, setLoginType] = useState<UsableLogin>('email')
     const [loginTypeValue, setLoginTypeValue] = useState('')
     const [password, setPassword] = useState('')
-    
+    const {setUserName} = useNameContext()
+    const history = useHistory()
 
-    const loginUser = () => {
+    const loginUserHanddler = async () => {
         const loginData: UserLoginData = {
             cpf: '',
             email: '',
@@ -25,12 +28,17 @@ const LoginPage = () => {
             using: ''
         }
         let using: keyof UserLoginData = loginType.toLowerCase() as UsableLogin
-
-        loginData[using] = loginTypeValue
+        if (using !== 'email') {
+            loginData[using] = Number(loginTypeValue)
+        } else {
+            loginData[using] = loginTypeValue
+        }
         loginData.password = password
         loginData.using = loginType.toLowerCase()
 
-        console.log(loginData)
+        const tokens = await loginUser(loginData)
+        setUserName(tokens.username)
+        history.push('')
     }
 
     const mountLoginTypeInput = () => {
@@ -50,7 +58,7 @@ const LoginPage = () => {
                 </select>
                 {mountLoginTypeInput()}
                 <CommonInput setValue={setPassword} name='Senha' type='password'/>
-                <button onClick={loginUser}>Login</button>
+                <button onClick={loginUserHanddler}>Login</button>
             </LoginContainer>
         </PageContainer>
     )

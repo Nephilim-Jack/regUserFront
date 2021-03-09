@@ -15,7 +15,7 @@ const Router = () => {
             <Header />
             <BrowserRouter>
             <AccessLevelControl>
-                <Route path='/' component={HomePage} exact/>:
+                <Route path='/' component={HomePage} exact/>
             </AccessLevelControl>
             <Route path='/login' component={LoginPage} exact/>
             </BrowserRouter>

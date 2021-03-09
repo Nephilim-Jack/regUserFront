@@ -1,49 +1,53 @@
-import {useContext, createContext, FC, useState} from 'react'
+import {useContext, createContext, FC, useState, useEffect} from 'react'
 import api, {refreshToken} from '../services/api'
 import axios from 'axios'
+import {getUserSession, accessCookieName, refreshCookieName} from '../utils/sessions'
 
 const ContextWrapper = createContext(
     {
         userName: 'Visitante', 
         setUserName: (value: string) => {},
-        accessToken: '',
-        setAccessToken: (value: string) => {},
     }
     )
 
 const PageContext: FC = (props) => {
     const [userName, setUserName] = useState('Visitante')
-    const [accessToken, setAccessToken] = useState('')
 
-    const setAapiInterceptors = async () => {
-        api.interceptors.request.use((config) => {
-            if (accessToken !== '') {
-                config.headers['Authorization'] = `Bearer ${accessToken}`
+    const setApiInterceptors = async () => {
+        if (accessCookieName){
+            const accessCookieValue = getUserSession(accessCookieName)
+            if (accessCookieValue !== -1) {
+                api.interceptors.request.use((config) => {
+                    config.headers['Authorization'] = `Bearer ${accessCookieValue}`
+                    return config
+                }, (err) => {Promise.reject(err)}
+                )
             }
-            return config
-        }, (err) => {Promise.reject(err)}
-        )
+        }
         
         api.interceptors.response.use(
             response => response,
             async (err) => {
                 if (err.config && err.response && err.response.status === 401) {
-                    const token = (await refreshToken())?.access
-                    if (token) {
-                        setAccessToken(token)
-                    }
+                    await refreshToken()
                     return axios.request(err.config)
                 }
             }
         )
     }
-    setAapiInterceptors()
+    setApiInterceptors()
+    useEffect(() => {
+        if(refreshCookieName){
+            if (userName === 'Visitante' && getUserSession(refreshCookieName) !== -1) {
+                setUserName('NOME QUALQUER')
+            }
+        }
+    }, [userName])
     return (
         <ContextWrapper.Provider
         value={
             {
                 userName, setUserName, 
-                accessToken, setAccessToken
             }
         }
         >
@@ -55,11 +59,6 @@ const PageContext: FC = (props) => {
 export const useNameContext = () => {
     const {userName, setUserName} = useContext(ContextWrapper)
     return {userName, setUserName}
-}
-
-export const useAccessToken = () => {
-    const {accessToken, setAccessToken} = useContext(ContextWrapper)
-    return {accessToken, setAccessToken}
 }
 
 export default PageContext
