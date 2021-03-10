@@ -10,6 +10,9 @@ const AccessLevelControl: FC = (props) => {
             if (getUserSession(refreshCookieName) !== -1) {
                 return props.children
             } else {
+                if (location.pathname !== '/register' && location.pathname !== '/login') {
+                    history.push('login')
+                }
             }
         }
     }
