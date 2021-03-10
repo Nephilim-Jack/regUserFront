@@ -7,16 +7,16 @@ export interface UserData {
     password: string;
 }
 
-interface Profile {
+export interface Profile {
     country: string;
     state: string;
     city: string;
-    cep: number;
+    cep: number | string;
     street: string;
-    houseNumber: number;
+    houseNumber: number | string;
     complement: string;
-    cpf: number;
-    pis: number;
+    cpf: number | string;
+    pis: number | string;
 }
 
 export interface UserLoginData {

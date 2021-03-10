@@ -40,6 +40,7 @@ export const InputContainer = styled.div`
 
 export const DefaultInput = styled.input<InuptBottomProps>`
     text-align: center;
+    background: transparent;
     outline: none;
     border: None;
     width: 14rem;
