@@ -1,6 +1,8 @@
 import {useState} from 'react'
 import {
-    PageContainer, LoginContainer
+    PageContainer, LoginContainer,
+    StyledOption, StyledSelection,
+    LoginButton
 } from './styles'
 import CommonInput from '../../components/CommonInput/index'
 import {loginUser} from '../../services/api'
@@ -52,14 +54,14 @@ const LoginPage = () => {
     return (
         <PageContainer>
             <LoginContainer>
-                <select name="loginType" id="" onChange={e => setLoginType(e.target.value as UsableLogin)}>
-                    <option value="email">Email</option>
-                    <option value="cpf">CPF</option>
-                    <option value="pis">PIS</option>
-                </select>
+                <StyledSelection id="" onChange={e => setLoginType(e.target.value as UsableLogin)}>
+                    <StyledOption value="email">Email</StyledOption>
+                    <StyledOption value="cpf">CPF</StyledOption>
+                    <StyledOption value="pis">PIS</StyledOption>
+                </StyledSelection>
                 {mountLoginTypeInput()}
                 <CommonInput setValue={setPassword} name='Senha' type='password'/>
-                <button onClick={loginUserHanddler}>Login</button>
+                <LoginButton onClick={loginUserHanddler}>Login</LoginButton>
                 <p>
                     Não tem conta? <Link to="/register">Registre-se aqui!</Link>
                 </p>
