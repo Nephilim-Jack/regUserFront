@@ -12,7 +12,7 @@ const slideAnimation = keyframes`
 `
 
 export const ModalContainer = styled.div`
-    position: absolute;
+    position: fixed;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -27,4 +27,5 @@ export const ModalContainer = styled.div`
     border-radius: 8px;
     overflow: hidden;
     animation: ${slideAnimation} 0.5s linear both;
+    z-index: 1;
 `
