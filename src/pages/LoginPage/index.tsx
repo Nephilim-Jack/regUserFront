@@ -8,6 +8,7 @@ import {UserLoginData} from '../../services/types'
 import {capitalize} from '../../utils/commonFunctions'
 import {useNameContext} from '../../context/index'
 import { useHistory } from 'react-router-dom'
+import {Link} from 'react-router-dom'
 
 type UsableLogin = 'email' | 'cpf' | 'pis'
 
@@ -59,6 +60,9 @@ const LoginPage = () => {
                 {mountLoginTypeInput()}
                 <CommonInput setValue={setPassword} name='Senha' type='password'/>
                 <button onClick={loginUserHanddler}>Login</button>
+                <p>
+                    Não tem conta? <Link to="/register">Registre-se aqui!</Link>
+                </p>
             </LoginContainer>
         </PageContainer>
     )
