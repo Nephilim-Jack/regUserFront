@@ -40,8 +40,11 @@ const LoginPage = () => {
         loginData.using = loginType.toLowerCase()
 
         const tokens = await loginUser(loginData)
-        setUserName(tokens.username)
-        history.push('')
+        
+        if (tokens.username){
+            setUserName(tokens.username)
+            history.push('')
+        }
     }
 
     const mountLoginTypeInput = () => {
@@ -54,11 +57,14 @@ const LoginPage = () => {
     return (
         <PageContainer>
             <LoginContainer>
-                <StyledSelection id="" onChange={e => setLoginType(e.target.value as UsableLogin)}>
-                    <StyledOption value="email">Email</StyledOption>
-                    <StyledOption value="cpf">CPF</StyledOption>
-                    <StyledOption value="pis">PIS</StyledOption>
-                </StyledSelection>
+                <div>
+                    <span>Entrar usando: </span>
+                    <StyledSelection id="" onChange={e => setLoginType(e.target.value as UsableLogin)}>
+                        <StyledOption value="email">Email</StyledOption>
+                        <StyledOption value="cpf">CPF</StyledOption>
+                        <StyledOption value="pis">PIS</StyledOption>
+                    </StyledSelection>
+                </div>
                 {mountLoginTypeInput()}
                 <CommonInput setValue={setPassword} name='Senha' type='password'/>
                 <LoginButton onClick={loginUserHanddler}>Login</LoginButton>
