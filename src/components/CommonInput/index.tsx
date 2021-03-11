@@ -11,6 +11,7 @@ interface CommonInputProps {
     setValue: (value: string) => void;
     type: string;
     required?: boolean;
+    value?: any
 }
 
 const CommonInput = (props: CommonInputProps) => {
@@ -24,7 +25,7 @@ const CommonInput = (props: CommonInputProps) => {
                     onFocus={() => setInputFocused(true)}
                     onBlur={() => setInputFocused(false)}
                     name={inputName}
-                    placeholder={props.placeHolder? props.placeHolder : `Insira o(a) ${props.name}`}
+                    placeholder={props.value? props.value: props.placeHolder? props.placeHolder : `Insira o(a) ${props.name}`}
                     type={props.type}
                     expand={inputFocused}
                     onChange={(e) => props.setValue(e.target.value)}
