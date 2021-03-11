@@ -4,6 +4,7 @@ import {
 import HomePage from './pages/HomePage/index'
 import LoginPage from './pages/LoginPage/index'
 import RegisterPage from './pages/RegisterPage/index'
+import EditUserPage from './pages/EditUserPage/index'
 import AccessLevelControl from './pages/ACL/index';
 import PageContext from './context/index'
 import Header from './components/Header/index';
@@ -19,6 +20,7 @@ const Router = () => {
                 <InfoModal />
                 <AccessLevelControl>
                     <Route path='/' component={HomePage} exact/>
+                    <Route path='/editUser' component={EditUserPage} exact/>
                 </AccessLevelControl>
                 <Route path='/login' component={LoginPage} exact/>
                 <Route path='/register' component={RegisterPage} exact/>
