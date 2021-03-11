@@ -1,7 +1,5 @@
 import {useContext, createContext, FC, useState, useEffect} from 'react'
-import api, {refreshToken} from '../services/api'
-import axios from 'axios'
-import {getUserSession, accessCookieName, refreshCookieName} from '../utils/sessions'
+import {getUserSession, refreshCookieName} from '../utils/sessions'
 
 interface ModalData {
     visible: boolean,
@@ -40,34 +38,14 @@ const PageContext: FC = (props) => {
             })
         }, ms)
     }
-
-    const setApiInterceptors = async () => {
-        if (accessCookieName){
-            const accessCookieValue = getUserSession(accessCookieName)
-            if (accessCookieValue !== -1) {
-                api.interceptors.request.use((config) => {
-                    config.headers['Authorization'] = `Bearer ${accessCookieValue}`
-                    return config
-                }, (err) => {Promise.reject(err)}
-                )
-            }
-        }
-        
-        api.interceptors.response.use(
-            response => response,
-            async (err) => {
-                if (err.config && err.response && err.response.status === 401) {
-                    await refreshToken()
-                    return axios.request(err.config)
-                }
-            }
-        )
-    }
-    setApiInterceptors()
     useEffect(() => {
         if(refreshCookieName){
             if (userName === 'Visitante' && getUserSession(refreshCookieName) !== -1) {
-                setUserName('NOME QUALQUER')
+                if (localStorage.getItem('username')) {
+                    setUserName(localStorage.getItem('username') as string)
+                } else {
+                    setUserName('Visitante')
+                }
             }
         }
     }, [userName])
